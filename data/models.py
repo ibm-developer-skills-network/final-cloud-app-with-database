@@ -6,7 +6,6 @@ except Exception:
     sys.exit()
 
 
-
 # User model
 class User(models.Model):
     first_name = models.CharField(null=False, max_length=30, default='john')
