@@ -1,5 +1,5 @@
 # ER diagram for a sample online course database
-
+![ER diagram](https://github.com/ibm-developer-skills-network/gwmom-cad7-django-orm/blob/master/images/orm.png)
 Models:
 - `User`, base user model
     * id (PK)
