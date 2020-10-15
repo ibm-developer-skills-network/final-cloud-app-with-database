@@ -35,3 +35,11 @@ extra enrollment information
     * mode
 
 More details about model definitions can be found in `data/models.py`
+
+A sample course would look like this:
+```
+Course: Cloud Application Development with Database,Develop and deploy application on cloud
+Course instructors: <QuerySet [<Instructor: Yan, Luo, True, 30050>, <Instructor: Joy, Li, False, 10040>]>
+Course learners: <QuerySet [<Learner: James, Smith, data_scientist, https://www.linkedin.com/james/>, <Learner: Mary, Smith, dba, https://www.facebook.com/mary/>]>
+Course project: Object-relational mapping project
+```

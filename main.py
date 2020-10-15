@@ -37,23 +37,23 @@ def populate_database():
     learner_robert.save()
 
     learners = Learner.objects.all()
-    print(learners)
+   # print(learners)
     # Add Instructors
     instructor_yan = Instructor(first_name='Yan', last_name='Luo', dob=date(1962, 7, 16),
                                 full_time=True,
-                                total_learners=100)
+                                total_learners=30050)
     instructor_yan.save()
     instructor_joy = Instructor(first_name='Joy', last_name='Li', dob=date(1992, 1, 2),
                                 full_time=False,
-                                total_learners=100)
+                                total_learners=10040)
     instructor_joy.save()
     instructor_peter = Instructor(first_name='Peter', last_name='Chen', dob=date(1982, 5, 2),
                                   full_time=True,
-                                  total_learners=100)
+                                  total_learners=2002)
     instructor_peter.save()
 
     instructors = Instructor.objects.all()
-    print(instructors)
+    #print(instructors)
 
     # Add Courses
     course_cloud_app = Course(name="Cloud Application Development with Database",
@@ -65,11 +65,9 @@ def populate_database():
     course_cloud_app.instructors.add(instructor_yan)
     course_cloud_app.instructors.add(instructor_joy)
 
-    print(course_cloud_app.instructors.all())
-
     course_python.instructors.add(instructor_peter)
     courses = Course.objects.all()
-    print(courses)
+   # print(courses)
 
     james_cloud = Enrollment.objects.create(learner=learner_james, date_enrolled=date(2020, 8, 1),
                                             course=course_cloud_app, mode='audit')
@@ -81,14 +79,19 @@ def populate_database():
     robert_python = Enrollment.objects.create(learner=learner_robert, date_enrolled=date(2020, 9, 2),
                                               course=course_python, mode='honor')
     robert_python.save()
-    print(course_python.learners.all())
+    #print(course_python.learners.all())
 
     project_orm = Project(name="Object-relational mapping project", grade=0.2, course=course_cloud_app)
     project_django = Project(name="Django full stack project", grade=0.2, course=course_cloud_app)
     project_python = Project(name="Python final project", grade=0.5, course=course_python)
-    print(project_orm)
-    print(project_orm.course)
-    print(project_python.course)
+    #print(project_orm)
+    #print(project_orm.course)
+    #print(project_python.course)
+
+    print("Course: {}".format(course_cloud_app))
+    print("Course instructors: {}".format(course_cloud_app.instructors.all()))
+    print("Course learners: {}".format(course_cloud_app.learners.all()))
+    print("Course project: {}".format(project_orm.name))
 
 
 clean_data()
