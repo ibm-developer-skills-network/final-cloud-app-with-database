@@ -43,3 +43,6 @@ Course instructors: <QuerySet [<Instructor: Yan, Luo, True, 30050>, <Instructor:
 Course learners: <QuerySet [<Learner: James, Smith, data_scientist, https://www.linkedin.com/james/>, <Learner: Mary, Smith, dba, https://www.facebook.com/mary/>]>
 Course project: Object-relational mapping project
 ```
+
+
+`main.py` script file contains sample code to populate database and perform CRUD
