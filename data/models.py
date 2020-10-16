@@ -37,7 +37,8 @@ class Learner(User):
     social_link = models.URLField(max_length=200)
 
     def __str__(self):
-        return self.first_name + ", " + self.last_name + ", " + self.occupation + ", " + self.social_link
+        return self.first_name + ", " + self.last_name + ", " + ", " + str(self.dob) + ", " + self.occupation + ", " \
+               + self.social_link
 
 
 # Instructor model
