@@ -77,8 +77,8 @@ class Enrollment(models.Model):
         (AUDIT, 'Audit'),
         (HONOR, 'Honor'),
     ]
-    learner = models.ForeignKey(Learner, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    learner = models.ForeignKey(Learner, on_delete=models.PROTECT)
+    course = models.ForeignKey(Course, on_delete=models.PROTECT)
     date_enrolled = models.DateField(default=now)
     mode = models.CharField(max_length=5, choices=COURSE_MODES, default=AUDIT)
 

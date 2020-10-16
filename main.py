@@ -1,4 +1,5 @@
 # Django specific settings
+import inspect
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 from django.db import connection
@@ -13,11 +14,11 @@ from datetime import date
 
 def clean_data():
     # Delete all
+    Enrollment.objects.all().delete()
     User.objects.all().delete()
     Learner.objects.all().delete()
     Instructor.objects.all().delete()
     Course.objects.all().delete()
-    Enrollment.objects.all().delete()
     Project.objects.all().delete()
 
 
@@ -30,6 +31,8 @@ def populate_database():
                             occupation='data_scientist',
                             social_link='https://www.linkedin.com/james/')
     learner_james.save()
+    print(inspect.getmro(Learner))
+
     learner_mary = Learner(first_name='Mary', last_name='Smith', dob=date(1991, 6, 12), occupation='dba',
                            social_link='https://www.facebook.com/mary/')
     learner_mary.save()
@@ -51,6 +54,8 @@ def populate_database():
                                 full_time=True,
                                 total_learners=30050)
     instructor_yan.save()
+    print(inspect.getmro(Instructor))
+
     instructor_joy = Instructor(first_name='Joy', last_name='Li', dob=date(1992, 1, 2),
                                 full_time=False,
                                 total_learners=10040)
@@ -104,7 +109,6 @@ def simple_queries():
     # Find a single instructor
     instructor_yan = Instructor.objects.get(first_name="Yan")
     print(instructor_yan)
-
     try:
         instructor_andy = Instructor.objects.get(first_name="Andy")
     except Instructor.DoesNotExist:
@@ -173,10 +177,19 @@ def update_data():
     course_python = Course.objects.get(name__contains='Python')
     print(course_python.learners.all())
     learner_joe = Learner(first_name='Joe', last_name='Smith', dob=date(1985, 3, 16),
-                            occupation='developer',
-                            social_link='https://www.linkedin.com/david/')
+                          occupation='developer',
+                          social_link='https://www.linkedin.com/david/')
     learner_joe.save()
     course_python.learners.add(learner_joe)
+    print(course_python.learners.all())
+
+    # Delete its enrollment first
+    # Delete the learner
+    joe_enrollments = Enrollment.objects.filter(learner__first_name="Joe")
+    print(joe_enrollments)
+    joe_enrollments.delete()
+    learner_joe.delete()
+    print(Learner.objects.all())
     print(course_python.learners.all())
 
 
