@@ -65,7 +65,8 @@ def populate_database():
                               description="Develop and deploy application on cloud")
     course_cloud_app.save()
     course_python = Course(name="Introduction to Python",
-                           description="Learn core concepts of Python and obtain hands-on experience via a capstone project")
+                           description="Learn core concepts of Python and obtain hands-on "
+                                       "experience via a capstone project")
     course_python.save()
     course_cloud_app.instructors.add(instructor_yan)
     course_cloud_app.instructors.add(instructor_joy)
@@ -158,7 +159,29 @@ def span_relationship_queries():
         courses_for_developers.add(course.name)
     print(courses_for_developers)
 
-#clean_data()
-#populate_database()
-#simple_queries()
+
+def update_data():
+    # Update field in one model
+    learner_david = Learner.objects.get(first_name='David')
+    print(learner_david)
+    learner_david.social_link = "https://www.linkedin.com/david2/"
+    learner_david.save()
+    learner_david = Learner.objects.get(first_name="David")
+    print(learner_david)
+
+    # Add a learner to course
+    course_python = Course.objects.get(name__contains='Python')
+    print(course_python.learners.all())
+    learner_joe = Learner(first_name='Joe', last_name='Smith', dob=date(1985, 3, 16),
+                            occupation='developer',
+                            social_link='https://www.linkedin.com/david/')
+    learner_joe.save()
+    course_python.learners.add(learner_joe)
+    print(course_python.learners.all())
+
+
+clean_data()
+populate_database()
+simple_queries()
 span_relationship_queries()
+update_data()

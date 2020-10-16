@@ -1,4 +1,5 @@
 import sys
+from django.utils.timezone import now
 try:
     from django.db import models
 except Exception:
@@ -37,8 +38,11 @@ class Learner(User):
     social_link = models.URLField(max_length=200)
 
     def __str__(self):
-        return self.first_name + ", " + self.last_name + ", " + ", " + str(self.dob) + ", " + self.occupation + ", " \
-               + self.social_link
+        return "First name: " + self.first_name + ", " + \
+               "Last name: " + self.last_name + ", " \
+               "Date of Birth: " + str(self.dob) + ", " + \
+               "Occupation: " + self.occupation + ", " + \
+               "Social Link: " + self.social_link
 
 
 # Instructor model
@@ -47,7 +51,10 @@ class Instructor(User):
     total_learners = models.IntegerField()
 
     def __str__(self):
-        return self.first_name + ", " + self.last_name + ", " + str(self.full_time) + ", " + str(self.total_learners)
+        return "First name: " + self.first_name + ", " + \
+               "Last name: " + self.last_name + ", " + \
+               "Is full time: " + str(self.full_time) + ", " + \
+               "Total Learners: " + str(self.total_learners)
 
 
 # Course model
@@ -58,7 +65,8 @@ class Course(models.Model):
     learners = models.ManyToManyField(Learner, through='Enrollment')
 
     def __str__(self):
-        return self.name + "," + self.description
+        return "Name: " + self.name + "," + \
+               "Description: " + self.description
 
 
 # Enrollment model
@@ -71,7 +79,7 @@ class Enrollment(models.Model):
     ]
     learner = models.ForeignKey(Learner, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    date_enrolled = models.DateField()
+    date_enrolled = models.DateField(default=now)
     mode = models.CharField(max_length=5, choices=COURSE_MODES, default=AUDIT)
 
 
@@ -82,4 +90,6 @@ class Project(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name + ", " + str(self.grade) + ", " + self.course.name
+        return "Project name: "+ \
+               self.name + ", " + \
+               "Grade percentage: " + str(self.grade)
