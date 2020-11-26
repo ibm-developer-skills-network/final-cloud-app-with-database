@@ -83,13 +83,12 @@ class Enrollment(models.Model):
     mode = models.CharField(max_length=5, choices=COURSE_MODES, default=AUDIT)
 
 
-# Project
-class Project(models.Model):
-    name = models.CharField(max_length=50)
-    grade = models.FloatField(default=0.3)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+# Lesson Model
+class Lesson(models.Model):
+    title = models.CharField(max_length=200, default="title")
+    course = models.ForeignKey(Course, null=True, on_delete=models.CASCADE)
+    content = models.TextField()
 
     def __str__(self):
-        return "Project name: "+ \
-               self.name + ", " + \
-               "Grade percentage: " + str(self.grade)
+        return "Title: " + self.title + "," + \
+               "Content: " + self.content
