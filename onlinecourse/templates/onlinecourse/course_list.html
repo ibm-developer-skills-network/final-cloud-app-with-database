@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Online Courses</title>
+</head>
+<body>
+
+<!-- Navigation bar -->
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-header">
+              <a class="navbar-brand" href="#">Online Course</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+            <li>
+                <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                <a class="btn btn-link" href="{% url 'onlinecourse:logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li>
+                <form class="form-inline" action="{% url 'onlinecourse:login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Username" name="username" >
+                        <input type="password" class="form-control" placeholder="Username" name="psw" >
+                        <button class="btn btn-primary" type="submit">Login</button>
+                        <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
+                    </div>
+                </form>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<!-- Course list section -->
+{% if course_list %}
+    <div class="container"> <!--Style root div with .container class -->
+        <div class="card-deck"> <!--Style second div with .card-deck class -->
+            {% for course in course_list %}
+            <div class="card" style="width: 36rem;"> <!--Style third level div with .card class -->
+                <img class="card-img-left" src="{{MEDIA_URL}}/{{ course.image }}" width="240px" height="240px"
+                           alt="Course image"> <!--Style card image with .card-img-left class -->
+                <div class="card-body bg-light"> <!--Style root div with .card-body and .bg-light class -->
+                    <h5 class="card-title">{{ course.name }}, <span class="text-success"> <!--Style h5 with .card-title and span with .text-success class -->
+                              {{ course.total_enrollment}} enrolled</span></h5>
+                    <p class="card-text">{{ course.description}}</p> <!--Style card description with .card-text class -->
+                    <form action="{% url 'onlinecourse:enroll' course.id %}" method="post">
+                        {% csrf_token %}
+                        <input class="btn btn-primary" type="submit"
+                               value="Enroll"> <!--Style Enroll button with .btn and .btn-primary class -->
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <p>No courses are available.</p>
+{% endif %}
+</body>
+</html>
