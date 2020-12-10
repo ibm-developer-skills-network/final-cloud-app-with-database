@@ -205,7 +205,7 @@ def simple_queries():
     print(learners_smith)
 
     # Order by
-    learners = Learner.objects.order_by('dob')
+    learners = Learner.objects.order_by('-dob')
     print(learners)
 
 

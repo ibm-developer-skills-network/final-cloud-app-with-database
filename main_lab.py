@@ -22,7 +22,7 @@ def clean_data():
     Lesson.objects.all().delete()
 
 
-def populate_instructors():
+def write_instructors():
     # Add users
     user_john = User(first_name='John', last_name='Doe', dob=date(1962, 7, 16))
     user_john.save()
@@ -47,7 +47,7 @@ def populate_instructors():
     instructor_peter.save()
 
 
-def populate_learners():
+def write_learners():
     # Add Learners
     learner_james = Learner(first_name='James', last_name='Smith', dob=date(1982, 7, 16),
                             occupation='data_scientist',
@@ -72,7 +72,7 @@ def populate_learners():
     learner_john.save()
 
 
-def populate_courses():
+def write_courses():
     # Add Courses
     course_cloud_app = Course(name="Cloud Application Development with Database",
                               description="Develop and deploy application on cloud")
@@ -83,7 +83,7 @@ def populate_courses():
     course_python.save()
 
 
-def populate_lessons():
+def write_lessons():
     # Add lessons
     lession1 = Lesson(title='Lesson 1', content="Object-relational mapping project")
     lession1.save()
@@ -306,10 +306,10 @@ def populate_course_enrollment_relationships():
 
 
 clean_data()
-populate_courses()
-populate_instructors()
-populate_learners()
-populate_lessons()
+write_courses()
+write_instructors()
+write_learners()
+write_lessons()
 
 query_courses()
 query_instructors()
