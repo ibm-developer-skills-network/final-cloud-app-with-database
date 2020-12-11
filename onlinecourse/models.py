@@ -113,6 +113,5 @@ class Enrollment(models.Model):
 
 #  <HINT> Create a Submission Model with:
     # One-to-Many relationship with Enrollment, i.e., one enrollment could have multiple exam submissions
-    # Many-to-Many relationship with choices or questions, for simplicity, you could just relate
-    # choices with submission record
+    # Many-to-Many relationship with choices or questions, for simplicity, you could just relate the choice model
 # class Submission(models.Model):
