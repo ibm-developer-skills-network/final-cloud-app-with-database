@@ -97,7 +97,7 @@ class Enrollment(models.Model):
 
 # <HINT> Create a Question Model with:
     # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
-    # Has grade for each question
+    # Has a grade point for each question
     # Has question content
     # Other fields and methods you would like to design
 # class Question(models.Model):
@@ -106,8 +106,10 @@ class Enrollment(models.Model):
 #  <HINT> Create a Choice Model with:
     # One-To-Many (or Many-To-Many if you want to reuse choices) relationship with Question
     # Choice content
+    # Indicate if this choice of the question is a correct one or not
     # Other fields and methods you would like to design
-#class Choice(models.Model):
+# class Choice(models.Model):
+
 
 #  <HINT> Create a Submission Model with:
     # One-to-Many relationship with Enrollment, i.e., one enrollment could have multiple exam submissions
