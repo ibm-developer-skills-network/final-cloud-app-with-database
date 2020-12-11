@@ -1,4 +1,5 @@
 from django.contrib import admin
+# <HINT> Import any new Models here
 from .models import Course, Lesson, Instructor, Learner
 
 
@@ -18,6 +19,8 @@ class CourseAdmin(admin.ModelAdmin):
 class LessonAdmin(admin.ModelAdmin):
     list_display = ['title']
 
+
+# <HINT> Register Choice model here
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)
