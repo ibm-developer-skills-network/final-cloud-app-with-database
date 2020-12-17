@@ -96,6 +96,7 @@ class Enrollment(models.Model):
 
 
 # <HINT> Create a Question Model with:
+    # Used to persist question content for a course
     # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
     # Has a grade point for each question
     # Has question content
@@ -104,6 +105,7 @@ class Enrollment(models.Model):
 
 
 #  <HINT> Create a Choice Model with:
+    # Used to persist choice content for a question
     # One-To-Many (or Many-To-Many if you want to reuse choices) relationship with Question
     # Choice content
     # Indicate if this choice of the question is a correct one or not
@@ -112,6 +114,7 @@ class Enrollment(models.Model):
 
 
 #  <HINT> Create a Submission Model with:
+    # Used for tracking a course exam submission history for a learner
     # One-to-Many relationship with Enrollment, i.e., one enrollment could have multiple exam submissions
     # Many-to-Many relationship with choices or questions, for simplicity, you could just relate the choice model
 # class Submission(models.Model):
