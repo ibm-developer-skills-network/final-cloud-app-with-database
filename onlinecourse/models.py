@@ -95,7 +95,7 @@ class Enrollment(models.Model):
     rating = models.FloatField(default=5.0)
 
 
-# <HINT> Create a Question Model with:
+# Task Create a Question Model with:
     # Used to persist question content for a course
     # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
     # Has a grade point for each question
@@ -104,7 +104,7 @@ class Enrollment(models.Model):
 # class Question(models.Model):
 
 
-#  <HINT> Create a Choice Model with:
+#  Task Create a Choice Model with:
     # Used to persist choice content for a question
     # One-To-Many (or Many-To-Many if you want to reuse choices) relationship with Question
     # Choice content
@@ -113,7 +113,7 @@ class Enrollment(models.Model):
 # class Choice(models.Model):
 
 
-#  <HINT> Create a Submission Model with:
+#  Task Create a Submission Model with:
     # Used for tracking a course exam submission history for a learner
     # One-to-Many relationship with Enrollment, i.e., one enrollment could have multiple exam submissions
     # Many-to-Many relationship with choices or questions, for simplicity, you could just relate the choice model
