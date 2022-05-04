@@ -131,11 +131,11 @@ class Choice(models.Model):
     choice_text = models.CharField(max_length=300, default="")
     is_correct = models.BooleanField(default=False)
 
-# <HINT> The submission model
+# Lab2: The submission model
 # One enrollment could have multiple submission
 # One submission could have multiple choices
 # One choice could belong to multiple submissions
-#class Submission(models.Model):
-#    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-#    choices = models.ManyToManyField(Choice)
+class Submission(models.Model):
+   enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+   choices = models.ManyToManyField(Choice)
 #    Other fields and methods you would like to design
