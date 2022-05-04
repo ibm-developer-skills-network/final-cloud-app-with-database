@@ -106,7 +106,7 @@ class Enrollment(models.Model):
     # question text
     # question grade/mark
 class Question(models.Model):
-    lesson_id = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     question_text = models.TextField()
     question_grade = models.IntegerField(default=0)
 
