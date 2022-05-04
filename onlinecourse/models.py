@@ -96,7 +96,7 @@ class Enrollment(models.Model):
 
 
 # Lab 2: Create a Question Model with:
-    # Used to persist question content for a course
+    # Used to persist question content for a course (via Lesson)
     # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
     # Has a grade point for each question
     # Has question content
@@ -106,8 +106,8 @@ class Enrollment(models.Model):
     # question text
     # question grade/mark
 class Question(models.Model):
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    question_text = models.CharField(max_length=300, default="")
+    lesson_id = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    question_text = models.TextField()
     question_grade = models.IntegerField(default=0)
 
     # Lab2: A sample model method to calculate if learner get the score of the question
@@ -130,6 +130,7 @@ class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=300, default="")
     is_correct = models.BooleanField(default=False)
+    
 
 # Lab2: The submission model
 # One enrollment could have multiple submission
