@@ -51,8 +51,36 @@
         <div class="card-columns-vertical mt-1">
         <h5 class="">Exam results</h5>
             <!--HINT Display exam results-->
-            <b>Score : {{ grade }} / 100 </b>
+            {% if user.is_authenticated %}
+            <form id="questionform" action="{% url 'onlinecourse:submit' course.id %}" method="post">
+            {% for question in course.question_set.all %}
+            <div class="card- mt1">
+                <div class="card-header">
+                    <h5>{{question.question_text}}</h5>
+                </div>
+                <div class="form-group">
+                    {% for choice in question.choice_set.all %}
+                    <div class="form-check">
+                        {% if choice.id in selected_ids %}
+                        {% if choice.is_correct %}
+                            <span class="text-success">Correct: {{choice.choice_text}} </span>
+                        {% else %}
+                            <span class="text-incorrect">Incorrect:  {{choice.choice_text}} </span>
+                        {% end if %}
+                    {% else %}
+                        {% if choice.is_correct %}
+                            <span class="text-alert">Not selected: {{choice.choice_text}} </span>
+                        {% else %}
+                            {{choice.choice_text}}
+                        {% endif %}
+                        {% endif %}
+                </div>
+                {% endfor %}
+            </div>
         </div>
+        {% endfor %}
+        </form>
+    {% end if %}
     </div>
 </body>
 </html>
