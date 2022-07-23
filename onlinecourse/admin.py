@@ -8,7 +8,7 @@ class ChoiceInline(admin.StackedInline):
     extra = 3
 
 class ChoiceAdmin(admin.ModelAdmin):
-    list_display = ('choice_text', 'correct')
+    list_display = ('pk', 'choice_text', 'correct')
 
 class QuestionInline(admin.StackedInline):
     model = Question

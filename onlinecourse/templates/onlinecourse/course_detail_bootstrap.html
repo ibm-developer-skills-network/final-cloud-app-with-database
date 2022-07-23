@@ -69,7 +69,7 @@
 
         <div id="exam" class="collapse">
             <!-- <HINT> Create a form to collect the selected choices for all questions -->
-            <form action="{ url 'onlinecourse:submit_view' }" method="post">
+            <form action="{% url 'onlinecourse:submit' course.id %}" method="post">
                 <!-- <HINT> Each example will have many questions -->
                 {% for question in course.question_set.all %}
                 <div class="card-header"><h5>{{question.question_text}}</h5></div>
