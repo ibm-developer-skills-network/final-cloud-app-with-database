@@ -123,7 +123,7 @@ class Question(models.Model):
 class Choice(models.Model):
     # Used to persist choice content for a question
     # One-To-Many (or Many-To-Many if you want to reuse choices) relationship with Question
-    question = models.ManyToManyField(Question)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     # Choice content
     A = 'A'
     B ='B'
