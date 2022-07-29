@@ -95,40 +95,60 @@ class Enrollment(models.Model):
     rating = models.FloatField(default=5.0)
 
 
-# <HINT> Create a Question Model with:
-    # Used to persist question content for a course
-    # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
-    # Has a grade point for each question
-    # Has question content
-    # Other fields and methods you would like to design
-#class Question(models.Model):
+class Question(models.Model):
+    text = models.TextField(max_length=500, default="question is...", null=False)
+    grade = models.CharField(default="U")
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    course = models.ManyToMany(Course , on_delete=models.SET_NULL) 
+    A = 'A'
+    B ='B'
+    C ='C'
+    D= 'D'
+    Choices = [(A , 'A'), (B, 'B'),(C, 'C'), (D, 'D') ]
+    correct_ans = models.CharField(choices=Choices, default=A, null=False)
     # Foreign key to lesson
     # question text
     # question grade/mark
-
     # <HINT> A sample model method to calculate if learner get the score of the question
-    #def is_get_score(self, selected_ids):
-    #    all_answers = self.choice_set.filter(is_correct=True).count()
-    #    selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
-    #    if all_answers == selected_correct:
-    #        return True
-    #    else:
-    #        return False
+    def is_get_score(self, selected_ids):
+       all_answers = self.choice_set.filter(is_correct=True).count()
+       selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
+       if all_answers == selected_correct:
+           return True
+       else:
+           return False
 
 
 #  <HINT> Create a Choice Model with:
+class Choice(models.Model):
     # Used to persist choice content for a question
     # One-To-Many (or Many-To-Many if you want to reuse choices) relationship with Question
+    question = models.ManyToManyField(Question)
     # Choice content
+    A = 'A'
+    B ='B'
+    C ='C'
+    D= 'D'
+    Choices = [(A , 'A'), (B, 'B'),(C, 'C'), (D, 'D') ]
+    answer = models.CharField(max_length=500, choices=Choices, default=A)
+    def is_correct(self, answer):
+        correct_ans = question.correct_ans
+        if  answer == correct_ans:
+           return True
+        else:
+           return False
     # Indicate if this choice of the question is a correct one or not
     # Other fields and methods you would like to design
-# class Choice(models.Model):
+
 
 # <HINT> The submission model
 # One enrollment could have multiple submission
 # One submission could have multiple choices
 # One choice could belong to multiple submissions
-#class Submission(models.Model):
-#    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-#    choices = models.ManyToManyField(Choice)
-#    Other fields and methods you would like to design
+class Submission(models.Model):
+   enrollment = models.ForeignKey(Enrollment, on_delete=models.PROTECT)
+   chocies = models.ManyToManyField(Choice)
+   user = models.ManyToManyField(Learner)
+   course =  models.ManyToManyField(Course)
+   #total = 
+  # Other fields and methods you would like to design
