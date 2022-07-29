@@ -56,26 +56,34 @@
 
             <!--
 
-            A collapse example here:
+            A collapse example here: 
+            
+                Click to expand elements within the collapse div -->
             <div id="exam" class="collapse">
-                Click to expand elements within the collapse div
                 </div>
-
-            -->
-
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
-
             <!-- <HINT> Each example will have many questions -->
-
             <!-- <HINT> Each question will have many choices -->
-
+                {% if user.is_authenticated %}
+                <ul>
+                {% for question in question.all %}
+                
+                <li>
+                    <p> {{question }}</p>
+                    <ul>
+                    {% for choice in question.choices %}
+                    <li>{{choice }}</p> <br>
+                    <input type="check" name="choice_{{choice.id}}" id="{{choice.id}}" ...></li></ul>
+                </li>
+            </ul>
+                
 
             <!-- <HINT> Create a form to collect the selected choices for all questions -->
             <!-- <HINT> For each question choice, you may create a checkbox input like
-            <input type="check" name="choice_{{choice.id}}" id="{{choice.id}}" ...>
+            
             -->
 
-            <!-- A choice submission form example
+            <!-- A choice submission form example -->
             <form id="questionform" action="point to a submit view" method="post">
                         ... for each question in the course ...
                         <div class="card mt-1">
@@ -93,7 +101,7 @@
                             </div>
                         </div>
                     <input class="btn btn-success btn-block" type="submit" value="Submit">
-            </form> -->
+            </form> 
 
             <!--Check here to see more details Bootstrap checkbox
              https://www.w3schools.com/bootstrap4/bootstrap_forms_inputs.asp-->
