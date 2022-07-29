@@ -97,7 +97,7 @@ class Enrollment(models.Model):
 
 class Question(models.Model):
     text = models.TextField(max_length=500, default="question is...", null=False)
-    grade = models.CharField(default="U")
+    grade = models.CharField(default="U",, null=True)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     course = models.ManyToMany(Course , on_delete=models.SET_NULL) 
     A = 'A'
