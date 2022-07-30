@@ -104,7 +104,7 @@ def enroll(request, course_id):
 
 # <HINT> Create a submit view to create an exam submission record for a course enrollment,
 # you may implement it based on following logic:
-def submit(request, course_id):
+def show_exam_result(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     user = request.user
     choices = extract_answers(request)
