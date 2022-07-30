@@ -107,7 +107,14 @@ def enroll(request, course_id):
 def submit(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     user = request.user
-    Submission.objects.create(user=user, course=course )
+    choices = extract_answers(request)
+    enrolled = Enrollment.objects.filter(user=user, course=course).get()
+    submission = Submission.objects.create(enrollment_id = enrolled.id )
+    for choice in choices:
+        choi = Choice.objects.filter(id = int(choice)).get()
+    submission.choices.add(choi)
+    submission.save()         
+    return HttpResponseRedirect(reverse(viewname='onlinecourse:exam_result', args=(course.id,submission.id ))) 
     
 # Get user and course object, then get the associated enrollment object 
 # created when the user enrolled the course
