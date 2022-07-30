@@ -17,7 +17,7 @@ class Instructor(models.Model):
         on_delete=models.CASCADE,
     )
     full_time = models.BooleanField(default=True)
-    total_learners = models.IntegerField()
+    total_learners = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
@@ -57,7 +57,7 @@ class Course(models.Model):
     name = models.CharField(null=False, max_length=30, default='online course')
     image = models.ImageField(upload_to='course_images/')
     description = models.CharField(max_length=1000)
-    pub_date = models.DateField(null=True)
+    pub_date = models.DateField(auto_now_add=True)
     instructors = models.ManyToManyField(Instructor)
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Enrollment')
     total_enrollment = models.IntegerField(default=0)
@@ -73,7 +73,7 @@ class Lesson(models.Model):
     title = models.CharField(max_length=200, default="title")
     order = models.IntegerField(default=0)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    content = models.TextField()
+    content = models.TextField(max_length=200, default="Programming...")
 
 
 # Enrollment model
@@ -90,65 +90,55 @@ class Enrollment(models.Model):
     ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    date_enrolled = models.DateField(default=now)
-    mode = models.CharField(max_length=5, choices=COURSE_MODES, default=AUDIT)
+    date_enrolled = models.DateField(auto_now=True)
+    mode = models.CharField(max_length=50, choices=COURSE_MODES, default=AUDIT)
     rating = models.FloatField(default=5.0)
 
 
+# <HINT> Create a Question Model with:
+    # Used to persist question content for a course
+    # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
+    # Has a grade point for each question
+    # Has question content
+    # Other fields and methods you would like to design
 class Question(models.Model):
-    text = models.TextField(max_length=500, default="question is...", null=False)
-    grade = models.CharField(default="U",, null=True)
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    course = models.ManyToMany(Course , on_delete=models.SET_NULL) 
-    A = 'A'
-    B ='B'
-    C ='C'
-    D= 'D'
-    Choices = [(A , 'A'), (B, 'B'),(C, 'C'), (D, 'D') ]
-    correct_ans = models.CharField(choices=Choices, default=A, null=False)
     # Foreign key to lesson
+    lesson_id = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     # question text
+    question_text = models.TextField(max_length=1000 ,default='Question is')
     # question grade/mark
+    grade = models.IntegerField()
     # <HINT> A sample model method to calculate if learner get the score of the question
     def is_get_score(self, selected_ids):
-       all_answers = self.choice_set.filter(is_correct=True).count()
-       selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
-       if all_answers == selected_correct:
-           return True
-       else:
-           return False
-
+        all_answers = self.choice_set.filter(is_correct=True).count()
+        selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
+        if all_answers == selected_correct:
+            return True
+        else:
+            return False
+    def __str__(self):
+        return self.question_text 
 
 #  <HINT> Create a Choice Model with:
-class Choice(models.Model):
     # Used to persist choice content for a question
     # One-To-Many (or Many-To-Many if you want to reuse choices) relationship with Question
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     # Choice content
-    A = 'A'
-    B ='B'
-    C ='C'
-    D= 'D'
-    Choices = [(A , 'A'), (B, 'B'),(C, 'C'), (D, 'D') ]
-    answer = models.CharField(max_length=500, choices=Choices, default=A)
-    def is_correct(self, answer):
-        correct_ans = question.correct_ans
-        if  answer == correct_ans:
-           return True
-        else:
-           return False
     # Indicate if this choice of the question is a correct one or not
     # Other fields and methods you would like to design
-
-
+class Choice(models.Model):
+    question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.TextField(max_length=1000)
+    is_correct = models.BooleanField(default=False)
+    def __str__(self):
+        return self.choice_text
 # <HINT> The submission model
 # One enrollment could have multiple submission
 # One submission could have multiple choices
 # One choice could belong to multiple submissions
 class Submission(models.Model):
-   enrollment = models.ForeignKey(Enrollment, on_delete=models.PROTECT)
+   enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
    chocies = models.ManyToManyField(Choice)
-   user = models.ManyToManyField(Learner)
-   course =  models.ManyToManyField(Course)
+#    user = models.ManyToManyField(Learner)
+#    course =  models.ManyToManyField(Course)
    #total = 
   # Other fields and methods you would like to design
