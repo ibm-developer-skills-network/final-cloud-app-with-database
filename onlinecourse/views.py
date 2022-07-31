@@ -104,18 +104,40 @@ def enroll(request, course_id):
 
 # <HINT> Create a submit view to create an exam submission record for a course enrollment,
 # you may implement it based on following logic:
-def show_exam_result(request, course_id):
-    course = get_object_or_404(Course, pk=course_id)
-    user = request.user
-    choices = extract_answers(request)
-    enrolled = Enrollment.objects.filter(user=user, course=course).get()
-    submission = Submission.objects.create(enrollment_id = enrolled.id )
-    for choice in choices:
-        choi = Choice.objects.filter(id = int(choice)).get()
-    submission.choices.add(choi)
-    submission.save()         
-    return HttpResponseRedirect(reverse(viewname='onlinecourse:exam_result', args=(course.id,submission.id ))) 
-    
+# def show_exam_result(request, course_id):
+#     course = get_object_or_404(Course, pk=course_id)
+#     user = request.user
+#     choices = extract_answers(request)
+#     enrolled = Enrollment.objects.filter(user=user, course=course).get()
+#     submission = Submission.objects.create(enrollment_id = enrolled.id )
+#     for choice in choices:
+#         choi = Choice.objects.filter(id = int(choice)).get()
+#     submission.choices.add(choi)
+#     submission.save()         
+#     return HttpResponseRedirect(reverse(viewname='onlinecourse:exam_result', args=(course.id,submission.id ))) 
+   
+def show_exam_result(request, course_id, submission_id):
+    context = {}
+    course = Course.objects.get(pk = course_id)
+    total_answers = extract_answers(request)
+    submission = Submission.objects.get(pk = submission_id)
+    lesson = Lesson.objects.get(course_id = course_id)
+    number_of_questions = Question.objects.filter(lesson_id = lesson.pk).aggregate(Count('pk'))
+    number_of_questions = number_of_questions['pk__count']
+    score:float = 100.00
+    questions = Question.objects.filter(lesson_id = lesson.pk)
+
+    for question in questions:
+        if not question.is_get_score(total_answers):
+            score = score - (100/number_of_questions)
+
+
+ 
+    context['lesson'] = lesson 
+    context['selected_ids'] = total_answers
+    context['course'] = course
+    context['grade'] = int(score)
+    return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
 # Get user and course object, then get the associated enrollment object 
 # created when the user enrolled the course
 # Create a submission object referring to the enrollment
