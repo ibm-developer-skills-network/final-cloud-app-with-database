@@ -1,8 +1,6 @@
 from http.cookiejar import DefaultCookiePolicy
 from pyexpat import model
 import sys
-from tkinter import CASCADE
-from turtle import title
 from unittest.util import _MAX_LENGTH
 from django.utils.timezone import now
 try:
@@ -139,7 +137,7 @@ class Enrollment(models.Model):
 #    Other fields and methods you would like to design
 
 class Question(models.Model):
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=550, default="Title")
     mark = models.FloatField(default=5.0)
 
@@ -154,7 +152,7 @@ class Question(models.Model):
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.CharField(max_length=250, default="answer")
-    correct = models.BooleanField(default=False)
+    is_correct = models.BooleanField(default=False)
 
 class Submission(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
