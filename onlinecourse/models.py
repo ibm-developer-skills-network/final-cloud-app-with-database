@@ -1,4 +1,9 @@
+from http.cookiejar import DefaultCookiePolicy
+from pyexpat import model
 import sys
+from tkinter import CASCADE
+from turtle import title
+from unittest.util import _MAX_LENGTH
 from django.utils.timezone import now
 try:
     from django.db import models
@@ -132,3 +137,25 @@ class Enrollment(models.Model):
 #    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
 #    choices = models.ManyToManyField(Choice)
 #    Other fields and methods you would like to design
+
+class Question(models.Model):
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    title = models.CharField(max_length=550, default="Title")
+    mark = models.FloatField(default=5.0)
+
+    def is_get_score(self, selected_ids):
+        all_answers = self.choice_set.filter(is_correct=True).count()
+        selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
+        if all_answers == selected_correct:
+            return True
+        else:
+            return False
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.CharField(max_length=250, default="answer")
+    correct = models.BooleanField(default=False)
+
+class Submission(models.Model):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choices = models.ManyToManyField(Choice)
