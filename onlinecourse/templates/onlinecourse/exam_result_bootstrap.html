@@ -54,14 +54,15 @@
             <div class="card mt-1">
                 <div class="card-header"><h5>{{ question.question_text }}</h5></div>
                 <div class="form-group">
+                    {% for question in course.question_set.all %}
                     {% if choice.is_correct and choice in choices %}
                     <div class="form-check">
                         
-                        <div class="text-success">Correct answer: {{ choice: choice_text }}</div>
+                        <div class="text-success">Correct answer: {{ choice.choice_text }}</div>
                         {% else %}{% if choice.is_correct and not choice in choices %}
-                        <div class="text-warning">Not selected: {{ choice: choice_text }}</div>
-                        {% else %}{% if choice.is_correct and not choice in choices %}
-                        <div class="text-danger">Wonrg answer: {{ choice: choice_text }}</div>
+                        <div class="text-warning">Not selected: {{ choice.choice_text }}</div>
+                        {% else %}{% if not choice.is_correct and choice in choices %}
+                        <div class="text-danger">Wonrg answer: {{ choice.choice_text }}</div>
                         {% else %}
                         <div>{{ choice.choice_text }}</div>
                         {% endif %}{% endif %}{% endif %}

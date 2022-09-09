@@ -23,7 +23,7 @@ class LessonAdmin(admin.ModelAdmin):
 
 class ChoiceInline(admin.StackedInline):
     model = Choice
-    extra = 4
+    extra = 5
 
 class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
