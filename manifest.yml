@@ -6,7 +6,7 @@
     buildpack: python_buildpack
   - name: onlinecourse-nginx
     routes:
-      - route: zyc.mybluemix.net/static
+      - route: zyc.mybluemix.net
     memory: 128M
     buildpack: staticfile_buildpack
 
