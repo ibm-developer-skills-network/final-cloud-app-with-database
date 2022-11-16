@@ -24,7 +24,7 @@
                     {% csrf_token %}
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Username" name="username" >
-                        <input type="password" class="form-control" placeholder="Username" name="psw" >
+                        <input type="password" class="form-control" placeholder="Password" name="psw" >
                         <button class="btn btn-primary" type="submit">Login</button>
                         <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
                     </div>
@@ -35,20 +35,46 @@
     </div>
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid" style='padding: 20px;'>
     {% if grade > 80 %}
     <div class="alert alert-success">
        <!--HINT Display passed info -->
+        <p><b>Congratulations, {{user.first_name}}! </b>You have passed the exam and completed the course with score {{grade}} / 100</p>
     </div>
         {% else %}
         <div class="alert alert-danger">
             <!--HINT Display failed info -->
+            <p><b>Failed. </b>Sorry, {{user.first_name}}! You have failed the exam with score {{grade}} / 100</p>
         </div>
         <a class="btn btn-link text-danger" href="{% url 'onlinecourse:course_details' course.id %}">Re-test</a>
         {% endif %}
         <div class="card-columns-vertical mt-1">
         <h5 class="">Exam results</h5>
             <!--HINT Display exam results-->
+            <!--... for each question in the course ...-->
+            {% for lesson in course.lesson_set.all %}
+            {% for question in lesson.question_set.all %}
+            <div class="card mt-1">
+                <div class="card-header"><h5 style="font-weight:bold">{{ question.question_text}}</h5></div>
+                <div class="form-group">
+                <!--... for each choice in the question  choice_{{choice.id}}...-->
+                    {% for choice in question.choice_set.all %}
+                    <div class="form-check">
+                        {% if choice.id in selected %}
+                            {% if choice.is_correct == True %}
+                                <label style="color:#2ea94a;font-weight:bold">Correct answer: {{choice.choice_text}}</label>
+                            {% else %}
+                                <label style="color:red;font-weight:bold">Wrong answer: {{choice.choice_text}}</label>
+                            {% endif %}
+                        {% else %}
+                            <label>{{choice.choice_text}}</label>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </body>
