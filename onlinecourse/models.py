@@ -132,7 +132,7 @@ class Question(models.Model):
 class Choice(models.Model):
     choice_text = models.CharField(max_length=1000)
     is_correct = models.BooleanField(default=True)
-    question_id = models.ManyToManyField(Question)
+    question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
 
     def __str__(self):
         return "Name: " + self.name + "," + \
