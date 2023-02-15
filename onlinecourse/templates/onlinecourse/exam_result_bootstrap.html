@@ -24,7 +24,7 @@
                     {% csrf_token %}
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Username" name="username" >
-                        <input type="password" class="form-control" placeholder="Username" name="psw" >
+                        <input type="password" class="form-control" placeholder="Password" name="psw" >
                         <button class="btn btn-primary" type="submit">Login</button>
                         <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
                     </div>
@@ -39,16 +39,39 @@
     {% if grade > 80 %}
     <div class="alert alert-success">
        <!--HINT Display passed info -->
+       <b> Congratulations, {{user.name}} ! </b> You have passed the exam and completed
+            the course with score {{mark}} /{{total_mark}} 
     </div>
         {% else %}
         <div class="alert alert-danger">
             <!--HINT Display failed info -->
+            <b> Failed ! </b>Sorry, {{user.name}} ! You have failed with score  {{mark}} /{{total_mark}}
         </div>
         <a class="btn btn-link text-danger" href="{% url 'onlinecourse:course_details' course.id %}">Re-test</a>
         {% endif %}
         <div class="card-columns-vertical mt-1">
         <h5 class="">Exam results</h5>
             <!--HINT Display exam results-->
+            {% for question in course.question_set.all %}
+                <div class="card">
+                    <div class="card-header border-light">
+                        <h5>{{question.text}}</h5>
+                    </div>
+                    <div class="card-body">
+                        {% for choice in question.choice_set.all %}
+                           {% if choice.is_correct and choice in choices %}
+                            <p class="card-text" style="color:green">Correct answer: {{choice.text}}</p>
+                            {% elif choice.is_correct and choice not in choices %}
+                            <p class="card-text" style="color:orange">Not selected: {{choice.text}}</p>
+                            {% elif choice.is_correct == False and choice in choices %}
+                            <p class="card-text" style="color:red">Wrong answer: {{choice.text}}</p>
+                            {% else %}
+                            <p class="card-text" style="color:black">{{choice.text}}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </body>
