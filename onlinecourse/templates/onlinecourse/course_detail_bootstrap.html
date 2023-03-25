@@ -28,7 +28,7 @@
                         {% csrf_token %}
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Username" name="username" >
-                            <input type="password" class="form-control" placeholder="Username" name="psw" >
+                            <input type="password" class="form-control" placeholder="Password" name="psw" >
                             <button class="btn btn-primary" type="submit">Login</button>
                             <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
                         </div>
@@ -41,46 +41,46 @@
 
     <!-- Page content -->
     <div class="container-fluid">
-            <h2>{{ course.name }}</h2>
-            <div class="card-columns-vertical">
-                {% for lesson in course.lesson_set.all %}
-                    <div class="card mt-1">
-                        <div class="card-header"><h5>Lesson {{lesson.order|add:1}}: {{lesson.title}}</h5></div>
-                        <div class="card-body">{{lesson.content}}</div>
-                    </div>
-                {% endfor %}
-            </div>
+        <h2>{{ course.name }}</h2>
+        <div class="card-columns-vertical">
+            {% for lesson in course.lesson_set.all %}
+                <div class="card mt-1">
+                    <div class="card-header"><h5>Lesson {{lesson.order|add:1}}: {{lesson.title}}</h5></div>
+                    <div class="card-body">{{lesson.content}}</div>
+                </div>
+            {% endfor %}
+        </div>
 
-            {% if user.is_authenticated %}
+        <button data-toggle="collapse" data-target="#exam"
+        class="btn btn-info" role="button" style="width:100%">
+       Start Exam</button>
 
-            <button data-toggle="collapse" class="btn btn-info btn-block" data-target="#exam">Start Exam</button>
-            <br>
-            <div id="exam" class="collapse">
-            <form id="questionform" action="" method="post">
-                 {% for question in course.question_set.all %}
-                       <div id="accordion">
-                       <div class="card mt-1">
-                            <div class="card-header" style="cursor: pointer;" data-toggle="collapse" href="#collapseTwo"><h5>{{ question.question_text}}</h5></div>
-                            {% csrf_token %}
-                            <div id="collapseTwo" class="collapse" data-parent="#accordion" class="form-group">
-                                {% for choice in question.choice_set.all %}
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="checkbox" name="choice_{{choice.id}}"
-                                               class="form-check-input" id="{{choice.id}}"
-                                               value="{{choice.id}}">{{ choice.choice_text }}
-                                    </label>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        </div>
-                        {% endfor %}
-                    <br>
-                    <input class="btn btn-success btn-block" type="submit" value="Submit">
-            </form>
-            </div>
-            {% endif %}
+   <div id="exam" class="collapse">
+        {% if user.is_authenticated %}
+           <form id="questionform" action="{% url 'onlinecourse:submit' course.id %}" method="post">
+                {% for question in course.question_set.all %}
+               <div class="card mt-1">
+                   <div class="card-header">
+                       <h5>{{question.question_text}}</h5>
+                   </div>
+                   {% csrf_token %}
+                   <div class="form-group">
+                       {% for choice in question.choice_set.all %}
+                           <div class="form-check">
+                               <label class="form-check-label">
+                                   <input type="checkbox" name="choice_{{choice.id}}"
+                                       class="form-check-input" id="{{choice.id}}"
+                                       value="{{choice.id}}">{{ choice.choice_text }}
+                               </label>
+                           </div>
+                       {% endfor %}
+                   </div>
+               </div>                        
+               {% endfor %}
+                <input class="btn btn-success btn-block" type="submit" value="Submit">
+           </form>       
+        {% endif %}
+   </div>
 
 
             <!--Check here to see more details Bootstrap checkbox
