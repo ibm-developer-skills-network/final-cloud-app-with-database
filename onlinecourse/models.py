@@ -94,7 +94,37 @@ class Enrollment(models.Model):
     mode = models.CharField(max_length=5, choices=COURSE_MODES, default=AUDIT)
     rating = models.FloatField(default=5.0)
 
+#######################################################################
+class Question(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    question_text = models.CharField(max_length=200)
+    grade_point = models.DecimalField(max_digits=5, decimal_places=2)
 
+    def __str__(self):
+        return self.question_text
+
+    def is_correct(self, selected_answer):
+        """
+        Calculates whether the learner got the score of the question or not based on the selected answer.
+        Returns True if the selected answer is correct, False otherwise.
+        """
+        correct_choices = self.choice_set.filter(is_correct=True)
+        selected_choices = self.choice_set.filter(id__in=selected_answer)
+        if correct_choices.count() != selected_choices.count():
+            return False
+        for choice in selected_choices:
+            if choice not in correct_choices:
+                return False
+        return True
+#######################################################################
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.choice_text
+######################################################################## 
 # <HINT> Create a Question Model with:
     # Used to persist question content for a course
     # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
@@ -128,7 +158,7 @@ class Enrollment(models.Model):
 # One enrollment could have multiple submission
 # One submission could have multiple choices
 # One choice could belong to multiple submissions
-#class Submission(models.Model):
-#    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-#    choices = models.ManyToManyField(Choice)
+class Submission(models.Model):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choices = models.ManyToManyField(Choice)
 #    Other fields and methods you would like to design
