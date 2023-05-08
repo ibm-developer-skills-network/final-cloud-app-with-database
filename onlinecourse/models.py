@@ -55,7 +55,7 @@ class Learner(models.Model):
 # Course model
 class Course(models.Model):
     name = models.CharField(null=False, max_length=30, default='online course')
-    image = models.ImageField(upload_to='course_images/')
+    image = models.ImageField(upload_to='course_images/', null=True, blank=True)
     description = models.CharField(max_length=1000)
     pub_date = models.DateField(null=True)
     instructors = models.ManyToManyField(Instructor)
