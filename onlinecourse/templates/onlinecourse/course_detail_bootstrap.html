@@ -56,26 +56,23 @@
 
             <!--
 
-            A collapse example here:
-            <div id="exam" class="collapse">
-                Click to expand elements within the collapse div
-                </div>
-
-            -->
+            A collapse example here: -->
+            {% if user.is_authenticated %}
+            <button type="button" class="btn btn-primary btn-block" data-toggle="collapse" data-target="#exam">Start Exam</button>
+        <div id="exam" class="collapse">
 
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
-
             <!-- <HINT> Each example will have many questions -->
 
             <!-- <HINT> Each question will have many choices -->
 
 
             <!-- <HINT> Create a form to collect the selected choices for all questions -->
-            <!-- <HINT> For each question choice, you may create a checkbox input like
+            <!-- <HINT> For each question choice, you may create a checkbox input like -->
             <input type="check" name="choice_{{choice.id}}" id="{{choice.id}}" ...>
-            -->
+            
 
-            <!-- A choice submission form example
+            <!-- A choice submission form example -->
             <form id="questionform" action="point to a submit view" method="post">
                         ... for each question in the course ...
                         <div class="card mt-1">
@@ -93,7 +90,9 @@
                             </div>
                         </div>
                     <input class="btn btn-success btn-block" type="submit" value="Submit">
-            </form> -->
+            </form> 
+        </div>
+            {% endif %}
 
             <!--Check here to see more details Bootstrap checkbox
              https://www.w3schools.com/bootstrap4/bootstrap_forms_inputs.asp-->
