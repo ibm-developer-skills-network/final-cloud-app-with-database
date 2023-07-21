@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %} 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
@@ -39,16 +44,41 @@
     {% if grade > 80 %}
     <div class="alert alert-success">
        <!--HINT Display passed info -->
+       <b>Congratulations, {{ user.username }}!</b>   You have passed the exam and compleeted thhe course with score <b>{{ grade }}/100</b></b>
     </div>
         {% else %}
         <div class="alert alert-danger">
             <!--HINT Display failed info -->
+            <b>Failed.</b> Sorry, {{ user.username }}! You have failed exam with score <b>{{ grade }}/100</b></b>
         </div>
         <a class="btn btn-link text-danger" href="{% url 'onlinecourse:course_details' course.id %}">Re-test</a>
         {% endif %}
         <div class="card-columns-vertical mt-1">
         <h5 class="">Exam results</h5>
             <!--HINT Display exam results-->
+            {% for lesson in course.lesson_set.all %}
+            {% for question in lesson.question_set.all %}
+            <div class="card mt-1">
+                <div class="card-header"><h5 style="font-weight:bold">{{ question.text}}</h5></div>
+                <div class="form-group">
+                <!--... for each choice in the question  choice_{{choice.id}}...-->
+                    {% for choice in question.choice_set.all %}
+                    <div class="form-check">
+                        {% if choice.id in selected %}
+                            {% if choice.is_correct == True %}
+                                <label style="color:#2ea94a;font-weight:bold">Correct answer: {{choice.choice_text}}</label>
+                            {% else %}
+                                <label style="color:red;font-weight:bold">Wrong answer: {{choice.choice_text}}</label>
+                            {% endif %}
+                        {% else %}
+                            <label>{{choice.choice_text}}</label>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            {% endfor %}           
         </div>
     </div>
 </body>
