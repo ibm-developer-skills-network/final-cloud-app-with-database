@@ -1,6 +1,10 @@
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
 
+* {
+  box-sizing: border-box;
+}
 
 /* Add a gray background color with some padding */
 body {
@@ -16,7 +20,6 @@ body {
   text-align: center;
   background: white;
 }
-
 
 /* Create two unequal columns that floats next to each other */
 /* Left column */
@@ -41,9 +44,9 @@ body {
 
 /* Add a card effect for articles */
 .card {
-   background-color: white;
-   padding: 20px;
-   margin-top: 20px;
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
 }
 
 /* Clear floats after the columns */
@@ -63,12 +66,12 @@ body {
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
-  .leftcolumn, .rightcolumn {
+  .leftcolumn,
+  .rightcolumn {
     width: 100%;
     padding: 0;
   }
 }
-
 
 .button {
   border: none;
@@ -88,16 +91,14 @@ body {
 }
 
 .rightalign {
-    float: right;
+  float: right;
 }
-
 
 .column {
   float: left;
   width: 33.33%;
   padding: 5px;
 }
-
 
 /* 2/3 column */
 .column-66 {
@@ -123,7 +124,8 @@ body {
 }
 
 /* Full-width input fields */
-input[type=text], input[type=password] {
+input[type="text"],
+input[type="password"] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -132,13 +134,14 @@ input[type=text], input[type=password] {
   background: #dadfe1;
 }
 
-input[type=text]:focus, input[type=password]:focus {
+input[type="text"]:focus,
+input[type="password"]:focus {
   background-color: #ddd;
   outline: none;
 }
 
-.red{
-    color:red
+.red {
+  color: red;
 }
 
 .dropbtn {
@@ -159,7 +162,7 @@ input[type=text]:focus, input[type=password]:focus {
   position: absolute;
   background-color: #f1f1f1;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -170,8 +173,14 @@ input[type=text]:focus, input[type=password]:focus {
   display: block;
 }
 
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
 
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 
-.dropdown:hover .dropbtn {background-color: darkblue;}
+.dropdown:hover .dropbtn {
+  background-color: darkblue;
+}

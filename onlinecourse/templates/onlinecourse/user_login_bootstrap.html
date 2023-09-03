@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static '../static/onlinecourse/course.css' %}">
 </head>
 <body>
 
@@ -43,9 +44,9 @@
             <h1>Login</h1>
             <div class="form-group"> <!--Style second div with .form-group class -->
               <label for="username"><b>User Name</b></label>
-              <input id="username" class = "form-control" type="text" placeholder="Enter User Name: " name="username" required> <!--Style input with .form-control class -->
+              <input id="username" class="form-control" type="text" placeholder="Enter User Name: " name="username" required> <!--Style input with .form-control class -->
               <label for="psw"><b>Password</b></label>
-              <input id="psw" class = "form-control" type="password"  placeholder="Enter Password: " name="psw" required> <!--Style input with .form-control class -->
+              <input id="psw" class="form-control" type="password"  placeholder="Enter Password: " name="psw" required> <!--Style input with .form-control class -->
             </div>
             {% if message %}
               <div class="alert alert-warning"> <!--Style the message paragraph with .alert and .alert-warning class -->
@@ -57,3 +58,4 @@
     </form>
 
 </body>
+</html>
